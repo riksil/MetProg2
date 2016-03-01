@@ -8,7 +8,32 @@ import static java.lang.System.out;
 /** Una classe per esempi e testing */
 public class Tests {
     public static void main(String[] args) {
-        lezione2();
+        //lezione2();
+        lezione3();
+    }
+
+    private static void lezione3() {
+        Dipendente d1 = new Dipendente("Mario Rossi", 1000.0);
+        out.println("Dipendente: "+d1.getNomeCognome()+" stipendio: "
+                +d1.getStipendio()+" codice:"+d1.getCodice());
+        d1.setStipendio(2000.0);
+        out.println("Dipendente: "+d1.getNomeCognome()+" stipendio: "
+                +d1.getStipendio());
+        Dipendente d2 = new Dipendente("Ciro Verdi", 1500.0);
+        out.println("Dipendente: "+d2.getNomeCognome()+" stipendio: "
+                +d2.getStipendio()+" codice:"+d2.getCodice());
+
+        Dipendente rossi = new Dipendente("Mario Rossi", 1000.0);
+        rossi.setIndirizzo("Roma, via Verdi, 76");
+        //rossi.setIndirizzo(null);
+        Dipendente verdi = new Dipendente("Ugo Verdi", 1200.0);
+        verdi.setTelefono("06 79879887");
+        for (Dipendente d : new Dipendente[] {rossi, verdi}) {
+            out.println("Dipendente: "+d.getNomeCognome());
+            Dipendente.Contatti con = d.getContatti();
+            out.println("Indirizzo: "+con.getIndirizzo());
+            out.println("Telefono: "+con.getTelefono());
+        }
     }
 
     private static void lezione2() {
