@@ -1,15 +1,72 @@
 package mp;
 
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.System.out;
+
+
+class LPoint {    // Punto del piano con etichetta
+    public final int x, y;
+    public final String label;
+
+    public LPoint(int x, int y, String lab) {
+        this.x = x;
+        this.y = y;
+        label = lab;
+    }
+
+    /** Ritorna true se l'oggetto dato non è null, è di tipo LPoint ed ha le stesse
+     * coordinate e la stessa etichetta di questo punto.
+     * @param o  un oggetto
+     * @return true se l'oggetto è un LPoint con lo stesso stato di questo oggetto */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != getClass()) return false;
+        LPoint p = (LPoint)o;
+        return x == p.x && y == p.y && Objects.equals(label, p.label);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName()+"["+x+","+y+","+label+"]";
+    }
+}
 
 /** Una classe per esempi e testing */
 public class Tests {
     public static void main(String[] args) {
         //lezione2();
-        lezione3();
+        //lezione3();
+        lezione4();
+    }
+
+    private static void lezione4() {
+        Dirigente dir = new Dirigente("Luisa Gialli", 300.0);
+        dir.setStipendio(2000.0);
+        Dipendente dip = new Dipendente("Mario Rossi", 1000.0);
+        for (Dipendente d : new Dipendente[] {dir, dip}) {
+            out.println(d.getNomeCognome()+" "+d.getStipendio());
+        }
+        Dipendente[] dd = new Dipendente[3];
+        dd[0] = dip;
+        dd[1] = dir;
+        dd[2] = new Dipendente("Ugo Verdi");
+        ((Dirigente)dd[1]).setBonus(100);
+        if (dd[2] instanceof Dirigente)
+            ((Dirigente)dd[2]).setBonus(100);    // Cast
+
+        LPoint p1 = new LPoint(0,0,"origin");
+        LPoint p2 = new LPoint(0,0,"origin");
+        if (!p1.equals(p2))
+            out.println("Sono diversi");
+        else
+            out.println("Sono uguali");
+
+        out.println(p1);
+        out.println(dip);
+        out.println(dir);
     }
 
     private static void lezione3() {

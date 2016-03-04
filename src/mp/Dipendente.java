@@ -71,14 +71,25 @@ public class Dipendente {
      * @throws NullPointerException  se indirizzo è null */
     public void setIndirizzo(String ind) {
         Objects.requireNonNull(ind, "Indirizzo non può essere null");
-        //if (ind == null)
-        //    throw new NullPointerException("Indirizzo non può essere null");
         contatti.indirizzo = ind;
     }
 
     /** Imposta il recapito telefonico di questo dipendente.
      * @param tel  il nuovo numero di telefono */
     public void setTelefono(String tel) { contatti.telefono = tel; }
+
+    /** @return il supervisore di questo dipendente */
+    public Dipendente getSupervisore() { return supervisore; }
+
+    /** Imposta il supervisore di questo dipendente.
+     * @param s  il supervisore */
+    public void setSupervisore(Dipendente s) { supervisore = s; }
+
+    @Override
+    public String toString() {
+        return getClass().getName()+"["+nomeCognome+","+codice+"]";
+    }
+
 
 
 
@@ -97,5 +108,6 @@ public class Dipendente {
     private String nomeCognome;
     private double stipendio;
     private Contatti contatti;
-    private final long codice;  // Il codice del dipendente
+    private Dipendente supervisore;  // Inizialmente null
+    private final long codice;       // Il codice del dipendente
 }
