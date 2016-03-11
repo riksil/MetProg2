@@ -3,7 +3,9 @@ package mp;
 import java.util.Objects;
 
 /** Un oggetto {@code Dipendente} rappresenta un dipendente dell'azienda */
-public class Dipendente {
+public class Dipendente implements Comparable<Dipendente> {
+
+
     /** Mantiene i contatti di un dipendente come indirizzo, telefono, ecc. */
     public class Contatti {
         /** @return  l'indirizzo del dipendente */
@@ -44,6 +46,11 @@ public class Dipendente {
     /** Crea un dipendente con il dato nome e cognome e lo stipendio a zero.
      * @param nomeCognome  nome e cognome del dipendente */
     public Dipendente(String nomeCognome) { this(nomeCognome, 0.0); }
+
+    @Override
+    public int compareTo(Dipendente o) {
+        return (codice < o.codice ? -1 : (codice > o.codice ? 1 : 0));
+    }
 
     /** @return il nome e cognome di questo dipendente */
     public String getNomeCognome() { return nomeCognome; }
