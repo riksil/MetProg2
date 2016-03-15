@@ -1,5 +1,7 @@
 package mp;
 
+import mp.util.HTree;
+
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -39,7 +41,26 @@ public class Tests {
     public static void main(String[] args) {
         //lezione2();
         //lezione3();
-        lezione4();
+        //lezione4();
+        lezione7();
+    }
+
+    private static void test_HTree() {
+        HTree<String> tree = new HTree<>("Computer Science");
+        tree.add("Computer Science", "Software", "Hardware");
+        tree.add("Hardware", "Memory", "Processor", "Architecture");
+        tree.add("Software", "Operating System", "Data Base", "Word Processing",
+                "Image Processing", "Algorithms", "Languages");
+        tree.add("Languages", "Procedural", "Functional", "Object Oriented");
+        tree.add("Procedural", "C", "Pascal");
+        tree.add("Object Oriented", "C++", "Java", "Smalltalk");
+        tree.add("Data Base", "SQL", "Data Mining");
+        tree.add("Operating System", "Unix", "Linux", "MacOS X");
+        out.println(tree.toFullString());
+    }
+
+    private static void lezione7() {
+        test_HTree();
     }
 
     private static void lezione4() {

@@ -1,5 +1,7 @@
 package mp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /** Un oggetto {@code Pair} rappresenta una coppia di valori dello stesso tipo
@@ -102,6 +104,14 @@ public class Generic {
         return m;
     }
 
+    public static <T extends Comparable<? super T>> T min2(T[] a) {
+        T m = null;
+        for (T v : a)
+            if (v != null && (m == null || m.compareTo(v) < 0))
+                m = v;
+        return m;
+    }
+
     public static void main(String[] args) {
         String[] sA = {"O","B","A"};
         int i = find(sA, "C");  // Il compilatore inferisce il tipo String
@@ -145,5 +155,36 @@ public class Generic {
         Dipendente d = min(dd);         // OK (dopo che Dipendente implementa Comparable)
         Dirigente[] dirs = {new Dirigente("Mario Rossi", 0), new Dirigente("Luisa Verdi", 0)};
         //Dirigente dir = min(dirs);    // Errore in compilazione
+        Dirigente dir = min2(dirs);     // OK
+
+        //List<?> da = new ArrayList<?>();      // ERRORE in compilazione
+
+        List<Pair<?>> pairL = new ArrayList<>();
+        pairL.add(new Pair<Integer>(1, 2));
+        pairL.add(new Pair<String>("a", "b"));
+        Pair<Integer> intPair = null;
+        //intPair = pairL.get(0);              // ERRORE in compilazione
+        Pair<Object> objPair = null;
+        //objPair = pairL.get(1);              // ERRORE in compilazione
+        Pair<?> unknown = pairL.get(0);        // OK
+
+        List<Pair<? extends Number>> numPairL = new ArrayList<>();
+        numPairL.add(new Pair<Integer>(1, 2));
+        //numPairL.add(new Pair<String>("a", "b"));    // ERRORE in compilazione
+        //intPair = numPairL.get(0);                   // ERRORE in compilazione
+        Pair<Number> numPair = null;
+        //numPair = numPairL.get(0);                   // ERRORE in compilazione
+
+        Pair<? extends Number> extNumPair = numPairL.get(0);  // OK
+
+        extNumPair = intPair;
+        Pair<? super Integer> supIntPair = numPair;
+        //supIntPair = extNumPair;                    // ERRORE in compilazione
+        Pair<? super Number> supNumPair = null;
+        supIntPair = supNumPair;
+        //supNumPair = supIntPair;                    // ERRORE in compilazione
+        unknown = supIntPair;
+        unknown = extNumPair;
+        supIntPair = objPair;
     }
 }

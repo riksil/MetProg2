@@ -1,7 +1,6 @@
-package mp;
+package mp.util;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.out;   // Importa il campo statico out di System
 
@@ -131,6 +130,50 @@ public class Utils {
         return ints;
     }
 
+    /** Ritorna {@code true} se la stringa contiene solamente lettere secondo il
+     * metodo {@link java.lang.Character#isLetter}.
+     * @param s  una stringa
+     * @return {@code true} se la stringa contiene solamente lettere */
+    public static boolean isWord(String s) {
+        for (int i = 0 ; i < s.length() ; i++)
+            if (!Character.isLetter(s.charAt(i)))
+                return false;
+        return true;
+    }
+
+    /** Ritorna l'insieme delle sotto-stringhe di una data stringa che hanno una
+     * data lunghezza e sono composte solamente da lettere.
+     * @param s  una stringa
+     * @param len  lunghezza delle sotto-stringhe
+     * @return l'insieme delle sotto-stringhe */
+    public static Set<String> subwords(String s, int len) {
+        Set<String> subSet = new HashSet<>();
+        for (int i = 0 ; i <= s.length() - len ; i++) {
+            String sub = s.substring(i, i + len);
+            if (isWord(sub)) subSet.add(sub);
+        }
+        return subSet;
+    }
+
+    /** Ritorna una mappa che ad ogni sotto-stringa di lettere della stringa data e
+     * della lunghezza specificata associa il numero di occorrenze.
+     * @param s  una stringa
+     * @param len  lunghezza delle sotto-stringhe
+     * @return  mappa che conta le occorrenze delle sotto-stringhe */
+    public static Map<String,Integer> subwordsCount(String s, int len) {
+        Map<String, Integer> count = new HashMap<>();
+        for (int i = 0 ; i <= s.length() - len ; i++) {
+            String sub = s.substring(i, i + len);
+            if (isWord(sub)) {
+                if (count.containsKey(sub))
+                    count.put(sub, count.get(sub)+1);
+                else
+                    count.put(sub, 1);
+            }
+        }
+        return count;
+    }
+
 
     public static void main(String[] args) {
         //test_toGMKB();
@@ -138,11 +181,13 @@ public class Utils {
         //test_reverse_rep();
         //test_prime();
         //test_align();
-        test_readDistinct();
+        //test_readDistinct();
+        //test_subwords();
+        test_subwordsCount();
     }
 
     /**
-     * Implementazione alternativa di {@link mp.Utils#timeLEQ(int, int, int, int, int, int)}
+     * Implementazione alternativa di {@link Utils#timeLEQ(int, int, int, int, int, int)}
      */
     private static boolean timeLEQ2(int h1, int m1, int s1, int h2, int m2, int s2) {
         return h1 < h2 || h1 == h2 && m1 < m2 || h1 == h2 && m1 == m2 && s1 <= s2;
@@ -196,5 +241,23 @@ public class Utils {
         out.println("Test readDistinct: digita una sequenza di interi: ");
         int[] ints = readDistinct(in);
         out.println(Arrays.toString(ints));
+    }
+
+    private static void test_subwords() {
+        Scanner input = new Scanner(System.in);
+        out.print("Test metodo subwords(), digita una linea di testo: ");
+        String line = input.nextLine();
+        out.print("Digita la lunghezza delle sotto-stringhe: ");
+        int len = input.nextInt();
+        out.println(subwords(line, len));
+    }
+
+    private static void test_subwordsCount() {
+        Scanner input = new Scanner(System.in);
+        out.print("Test metodo subwordsCount(), digita una linea di testo: ");
+        String line = input.nextLine();
+        out.print("Digita la lunghezza delle sotto-stringhe: ");
+        int len = input.nextInt();
+        out.println(subwordsCount(line, len));
     }
 }
