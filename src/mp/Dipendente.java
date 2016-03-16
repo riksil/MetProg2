@@ -5,9 +5,8 @@ import java.util.Objects;
 /** Un oggetto {@code Dipendente} rappresenta un dipendente dell'azienda */
 public class Dipendente implements Comparable<Dipendente> {
 
-
     /** Mantiene i contatti di un dipendente come indirizzo, telefono, ecc. */
-    public class Contatti {
+    public static class Contatti {
         /** @return  l'indirizzo del dipendente */
         public String getIndirizzo() { return indirizzo; }
 
