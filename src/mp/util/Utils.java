@@ -174,6 +174,20 @@ public class Utils {
         return count;
     }
 
+    /** Ritorna una mappa che contiene un campione random della mappa data.
+     * @param map  la mappa da campionare
+     * @param expectedSize  numero atteso di chiavi nella mappa campione
+     * @return la mappa ottenuta campionando la mappa data */
+    public static <K,V> Map<K,V> randSample(Map<K,V> map, int expectedSize) {
+        Map<K,V> sample = new HashMap<>();
+        if (map.size() == 0) return sample;
+        double p = ((double)expectedSize)/map.size();   // Probabilità di selezionare una chiave
+        for (K k : map.keySet())
+            if (Math.random() < p)
+                sample.put(k, map.get(k));
+        return sample;
+    }
+
 
     public static void main(String[] args) {
         //test_toGMKB();
