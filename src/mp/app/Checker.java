@@ -4,6 +4,7 @@ package mp.app;
  * Ad esempio, potrebbe controllare che i caratteri di una stringa siano tutti
  * delle lettere, o che la lunghezza sia compresa in un certo intervallo, o che
  * rispetti la sintassi di un indirizzo email, ecc. */
+@FunctionalInterface
 public interface Checker {
     /** Esegue un controllo di validità della stringa e se è valida ritorna
      * {@code null}, altrimenti ritorna una stringa che contiene una spiegazione
