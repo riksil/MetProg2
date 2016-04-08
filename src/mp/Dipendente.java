@@ -93,7 +93,7 @@ public class Dipendente implements Comparable<Dipendente> {
 
     @Override
     public String toString() {
-        return getClass().getName()+"["+nomeCognome+","+codice+"]";
+        return getClass().getName()+"["+nomeCognome+","+codice+","+stipendio+"]";
     }
 
 
