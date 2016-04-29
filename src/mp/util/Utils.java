@@ -1,8 +1,7 @@
 package mp.util;
 
-import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
 import java.util.*;
 
 import static java.lang.System.out;   // Importa il campo statico out di System
@@ -191,37 +190,29 @@ public class Utils {
         return sample;
     }
 
-    /** Ritorna una stringa che rappresenta l'albero di directory e file a partire
-     * dal percorso specificato.
-     * @param root  percorso della directory radice
-     * @return una stringa che rappresenta l'albero di directory e file
-     * @throws IOException se si verifi qualche errore nell'accesso ai file/dir */
-    public static String fileTreeToString(Path root) throws IOException {
-        // Classe locale che realizza il visitatore di un albero di dir e file
-        class Visitor extends SimpleFileVisitor<Path> {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                if (Files.isHidden(dir)) return FileVisitResult.SKIP_SUBTREE;
-                s += pre+(pre.isEmpty() ? "" : "---")+dir.getFileName()+"\n";
-                pre += "    |";
-                return FileVisitResult.CONTINUE;
-            }
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                s += pre+"---"+file.getFileName()+" "+attrs.size()+"\n";
-                return FileVisitResult.CONTINUE;
-            }
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                pre = pre.substring(0, pre.length() - 5);
-                return FileVisitResult.CONTINUE;
-            }
+    /** Ritorna una stima della memoria totale (heap e non-heap) attualmente usata.
+     * @return una stima della memoria totale attualmente usata */
+    public static long getUsedMem() {
+        long curr = 0;
+        for (MemoryPoolMXBean m : ManagementFactory.getMemoryPoolMXBeans())
+            curr += m.getUsage().getUsed();
+        return curr;
+    }
 
-            String s = "", pre = "";
-        }
-        Visitor vis = new Visitor();      // Crea il visitatore e lo passa al
-        Files.walkFileTree(root, vis);    // metodo che effettua la visita
-        return vis.s;    // Al termine della visita, in s c'è la rappresentazione dell'albero
+    /** Ritorna il picco della memoria totale usata da quando la JVM è partita o
+     * dall'ultima volta che è stato fatto un reset (vedi {@link Utils#resetPeakMem()}).
+     * @return il picco della memoria totale usata */
+    public static long getPeakMem() {
+        long peak = 0;
+        for (MemoryPoolMXBean m : ManagementFactory.getMemoryPoolMXBeans())
+            peak += m.getPeakUsage().getUsed();
+        return peak;
+    }
+
+    /** Imposta il picco della memoria totale alla memoria attualmente usata */
+    public static void resetPeakMem() {
+        ManagementFactory.getMemoryPoolMXBeans()
+                .forEach(java.lang.management.MemoryPoolMXBean::resetPeakUsage);
     }
 
 
@@ -234,7 +225,6 @@ public class Utils {
         //test_readDistinct();
         //test_subwords();
         //test_subwordsCount();
-        test_fileTreeToString();
     }
 
     /**
@@ -310,15 +300,5 @@ public class Utils {
         out.print("Digita la lunghezza delle sotto-stringhe: ");
         int len = input.nextInt();
         out.println(subwordsCount(line, len));
-    }
-
-    private static void test_fileTreeToString() {
-        Scanner input = new Scanner(System.in);
-        out.println("Test fileTreeToString: Digita un pathname: ");
-        String pathname = input.nextLine();
-        Path root = Paths.get(pathname).toAbsolutePath();
-        try {
-            out.println(fileTreeToString(root));
-        } catch(IOException e) { out.println(e); }
     }
 }

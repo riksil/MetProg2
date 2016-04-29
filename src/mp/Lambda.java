@@ -1,5 +1,7 @@
 package mp;
 
+import mp.file.Utils;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
@@ -66,7 +68,7 @@ public class Lambda {
         out.println(fLst);
 
         try {
-            Map<String,Integer> wm = TestFiles.wordMap(Paths.get("files",
+            Map<String,Integer> wm = Utils.wordMap(Paths.get("files",
                     "alice_it_utf8.txt"), "utf8");
             out.println(wm.size());
             out.println(sum(wm.values()));

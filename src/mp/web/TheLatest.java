@@ -1,6 +1,5 @@
 package mp.web;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,11 +44,11 @@ public class TheLatest {
         String url = uStart+q.replace(" ", "+")+uEnd;
         String s = name+"  ";
         try {
-            String page = Utils.loadPage(url, chars);
+            String page = loadPage(url, chars);
             Matcher m = regExp.matcher(page);
             if (m.find()) {
                 s += m.group(gDate).trim()+"  ";
-                return s + "<<"+Utils.clean(m.group(gTitle).trim())+">>";
+                return s + "<<"+clean(m.group(gTitle).trim())+">>";
             } else
                 return s + "No news";
         } catch (Exception e) { return s+"ERROR "+e.getMessage(); }

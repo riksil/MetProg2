@@ -2,9 +2,6 @@ package mp.util;
 
 import java.util.*;
 
-import static java.lang.System.out;
-
-
 /** Un oggetto {@link HTree} rappresenta un albero. È implementato tramite
  * {@link java.util.HashMap} e quindi gli oggetti che sono i nodi dell'albero
  * dovrebbero avere un'adeguata definizione dei metodi {@link Object#equals} e
