@@ -40,7 +40,7 @@ public class MazeApp extends Application {
         addPlayer.getItems().add(mi);
         // Permette di caricare un nuovo giocatore scegliendo un class file con
         // l'implementazione di un giocatore (cioè, una classe che implementa
-        // PlayerC). Si assume che la classe appartenga al package mp.game.
+        // Player). Si assume che la classe appartenga al package mp.game.
         MenuItem addCPlayer = new MenuItem("Add Player...");
         addCPlayer.setOnAction(e -> addCPlayer());
         Menu menu = new Menu("Game", null, newGame, addPlayer, addCPlayer);
@@ -75,9 +75,10 @@ public class MazeApp extends Application {
             URLClassLoader classLoader = new URLClassLoader(new URL[]{url});
             // Usa il caricatore di class file per caricare il class file
             // scelto dall'utente. È necessario che il class file sia
-            // effettivamente un'implementazione della classe PlayerC.
-            Class<? extends Player> playerClass = classLoader
-                    .loadClass(className).asSubclass(PlayerC.class);
+            // effettivamente un'implementazione di Player.
+            Class<? extends Player> playerClass =
+                    Class.forName(className, true, classLoader)
+                            .asSubclass(Player.class);
             if (game != null)
                 game.add(playerClass.newInstance());
         } catch (Exception e) { e.printStackTrace(); }
