@@ -2,6 +2,8 @@ package mp.game;
 
 import java.util.*;
 
+import static mp.game.Player.Dir;
+
 /** Classe di utilità per la costruzione di labirinti */
 public class MazeGen {
     /** Una posizione all'interno di un labirinto */
@@ -14,6 +16,18 @@ public class MazeGen {
         public Pos(int r, int c) {
             row = r;
             col = c;
+        }
+
+        /** La posizione della cella in cui si arriva se da questa posizione ci
+         * si muove di un passo nella direzione specificata. Si assume che
+         * questa posizione sia quella di una cella.
+         * @param d  una direzione
+         * @return la posizione della cella di arrivo */
+        public Pos go(Dir d) {
+            for (int i = 0 ; i < 4 ; i++)
+                if (Dir.values()[i].equals(d))
+                    return new Pos(movR(row, i), movC(col, i));
+            return null;
         }
 
         @Override
@@ -119,7 +133,6 @@ public class MazeGen {
             indices[i] = indList.remove(RND.nextInt(indList.size()));
         return indices;
     }
-
 
     private static final int[][] moves = {{-2, 0}, {0, 2}, {2, 0}, {0, -2}};
     private static final Random RND = new Random();

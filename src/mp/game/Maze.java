@@ -8,7 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import static mp.game.MazeGen.Pos;
+import static mp.game.MazeGen.*;
+import static mp.game.Player.Dir;
 
 import java.util.Collection;
 import java.util.Random;
@@ -56,6 +57,20 @@ public class Maze {
                     gc.fillRect(p.getX(), p.getY(), d.getWidth(), d.getHeight());
                 }
         return canvas;
+    }
+
+    /** Ritorna true se la posizione della cella a cui si arriva dalla cella p
+     * con un passo nella direzione d è libera e il passaggio tra le due celle
+     * è aperto, altrimenti ritorna false.
+     * @param p  la posizione di una cella
+     * @param d  una direzione
+     * @return true se si può andare dalla cella in posizione p alla cella
+     * adiacente nella direzione d */
+    public boolean pass(Pos p, Dir d) {
+        Pos q = p.go(d);
+        if (!inside(q.row, q.col, nr, nc) || !maze[q.row][q.col]) return false;
+        int r = passI(p.row, q.row), c = passI(p.col, q.col);
+        return maze[r][c];
     }
 
     /** Ritorna la posizione di una cella scelta in modo random tra quelle
